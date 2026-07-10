@@ -30,6 +30,14 @@
       <main class="layout">
         <aside class="panel controls-panel" aria-label="Study controls">
           <section>
+            <h2>Study mode</h2>
+            <div class="mode-group" role="tablist" aria-label="Study mode selector">
+              <button class="filter-button is-active" type="button" data-mode="flashcards" aria-pressed="true">Flashcards</button>
+              <button class="filter-button" type="button" data-mode="test" aria-pressed="false">Practice test</button>
+            </div>
+          </section>
+
+          <section>
             <h2>Domain filter</h2>
             <div class="filter-group">
               <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All domains</button>
@@ -78,6 +86,7 @@
               <li>1 = Got it ✓</li>
               <li>2 = Close 🤔</li>
               <li>3 = Missed ✗</li>
+              <li>In test mode, 1-4 selects an answer.</li>
             </ul>
           </section>
 
@@ -117,6 +126,37 @@
             <button class="grade-button" type="button" data-grade="close">2 · Close 🤔</button>
             <button class="grade-button" type="button" data-grade="missed">3 · Missed ✗</button>
           </div>
+
+          <section id="testPanel" class="test-panel" hidden aria-label="Practice test area">
+            <div class="study-meta">
+              <span id="testProgress" class="pill">Practice test</span>
+              <span id="testScore" class="muted">Score 0/0</span>
+            </div>
+
+            <div class="test-shell">
+              <h2 id="testQuestionText">Start a practice test to answer AZ-900-style multiple-choice questions.</h2>
+              <div id="testChoices" class="choice-list"></div>
+            </div>
+
+            <div id="testFeedback" class="answer-panel" hidden>
+              <div>
+                <h3>Answer</h3>
+                <p id="testAnswerText"></p>
+              </div>
+              <div>
+                <h3>Why it matters</h3>
+                <p id="testRationaleText"></p>
+              </div>
+              <p>
+                <a id="testSourceLink" href="#" target="_blank" rel="noreferrer">Microsoft Learn source</a>
+              </p>
+            </div>
+
+            <div class="test-actions">
+              <button id="startTestButton" class="grade-button" type="button">Start practice test</button>
+              <button id="nextQuestionButton" class="ghost-button" type="button" hidden>Next question</button>
+            </div>
+          </section>
 
           <p id="statusText" class="helper-text">Press Space or tap the card to flip it.</p>
         </section>

@@ -22,15 +22,25 @@ const DOMAIN_MAP = {
 const state = {
   deck: [],
   progress: loadProgress(),
+  mode: 'flashcards',
   filter: 'all',
   currentCardId: null,
   flipped: false,
-  currentBucket: ''
+  currentBucket: '',
+  test: {
+    questions: [],
+    currentIndex: 0,
+    answered: 0,
+    correct: 0,
+    selectedChoice: null,
+    revealed: false
+  }
 };
 
 const elements = {
   themeToggle: document.querySelector('#themeToggle'),
   filterButtons: Array.from(document.querySelectorAll('[data-filter]')),
+  modeButtons: Array.from(document.querySelectorAll('[data-mode]')),
   resetButton: document.querySelector('#resetProgress'),
   cardButton: document.querySelector('#cardButton'),
   cardBucket: document.querySelector('#cardBucket'),
@@ -49,7 +59,18 @@ const elements = {
   masteryProgress: document.querySelector('#masteryProgress'),
   totalCards: document.querySelector('#totalCards'),
   dueCount: document.querySelector('#dueCount'),
-  masteredCount: document.querySelector('#masteredCount')
+  masteredCount: document.querySelector('#masteredCount'),
+  testPanel: document.querySelector('#testPanel'),
+  testProgress: document.querySelector('#testProgress'),
+  testScore: document.querySelector('#testScore'),
+  testQuestion: document.querySelector('#testQuestionText'),
+  testChoices: document.querySelector('#testChoices'),
+  testFeedback: document.querySelector('#testFeedback'),
+  testAnswer: document.querySelector('#testAnswerText'),
+  testRationale: document.querySelector('#testRationaleText'),
+  testSourceLink: document.querySelector('#testSourceLink'),
+  startTestButton: document.querySelector('#startTestButton'),
+  nextQuestionButton: document.querySelector('#nextQuestionButton')
 };
 
 initializeTheme();
@@ -80,12 +101,33 @@ async function loadDeck() {
 }
 
 function attachEvents() {
+  elements.modeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.mode = button.dataset.mode;
+
+      if (state.mode === 'test') {
+        startTestSession();
+      } else {
+        state.flipped = false;
+        chooseNextCard();
+      }
+
+      render();
+    });
+  });
+
   elements.filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       state.filter = button.dataset.filter;
       state.currentCardId = null;
       state.flipped = false;
-      chooseNextCard();
+
+      if (state.mode === 'test') {
+        startTestSession();
+      } else {
+        chooseNextCard();
+      }
+
       render();
     });
   });
@@ -101,6 +143,16 @@ function attachEvents() {
 
   document.querySelectorAll('[data-grade]').forEach((button) => {
     button.addEventListener('click', () => applyGrade(button.dataset.grade));
+  });
+
+  elements.startTestButton.addEventListener('click', () => {
+    startTestSession();
+    render();
+  });
+
+  elements.nextQuestionButton.addEventListener('click', () => {
+    advanceTestQuestion();
+    render();
   });
 
   elements.resetButton.addEventListener('click', () => {
@@ -128,8 +180,18 @@ function attachEvents() {
 
     if (event.code === 'Space') {
       event.preventDefault();
-      if (state.currentCardId && !state.flipped) {
+      if (state.mode === 'flashcards' && state.currentCardId && !state.flipped) {
         state.flipped = true;
+        render();
+      }
+      return;
+    }
+
+    if (state.mode === 'test') {
+      const choiceIndex = Number(event.key) - 1;
+      if (choiceIndex >= 0 && choiceIndex < 4) {
+        event.preventDefault();
+        selectTestChoice(choiceIndex);
         render();
       }
       return;
@@ -187,6 +249,76 @@ function chooseNextCard() {
   state.currentBucket = 'Ahead of schedule · earliest upcoming review';
 }
 
+function startTestSession() {
+  const candidates = shuffleArray(getFilteredDeck().slice());
+  const sessionLength = Math.min(10, candidates.length);
+
+  state.test.questions = candidates.slice(0, sessionLength).map((card) => buildTestQuestion(card));
+  state.test.currentIndex = 0;
+  state.test.answered = 0;
+  state.test.correct = 0;
+  state.test.selectedChoice = null;
+  state.test.revealed = false;
+}
+
+function buildTestQuestion(card) {
+  const distractorPool = state.deck
+    .filter((candidate) => candidate.id !== card.id && candidate.answer !== card.answer)
+    .sort((left, right) => {
+      const leftScore = left.shortDomain === card.shortDomain ? 0 : 1;
+      const rightScore = right.shortDomain === card.shortDomain ? 0 : 1;
+      return leftScore - rightScore;
+    });
+
+  const distractors = shuffleArray(distractorPool.slice()).slice(0, 3).map((candidate) => candidate.answer);
+  const choices = shuffleArray([
+    { text: card.answer, isCorrect: true },
+    ...distractors.map((text) => ({ text, isCorrect: false }))
+  ]);
+
+  return {
+    id: card.id,
+    question: card.question,
+    shortDomain: card.shortDomain,
+    subdomain: card.subdomain,
+    answer: card.answer,
+    rationale: card.rationale,
+    source: card.source,
+    choices
+  };
+}
+
+function advanceTestQuestion() {
+  if (state.test.currentIndex < state.test.questions.length - 1) {
+    state.test.currentIndex += 1;
+    state.test.selectedChoice = null;
+    state.test.revealed = false;
+    return;
+  }
+
+  startTestSession();
+}
+
+function selectTestChoice(choiceIndex) {
+  const currentQuestion = getCurrentTestQuestion();
+  if (!currentQuestion || state.test.revealed) {
+    return;
+  }
+
+  const choice = currentQuestion.choices[choiceIndex];
+  if (!choice) {
+    return;
+  }
+
+  state.test.selectedChoice = choiceIndex;
+  state.test.revealed = true;
+  state.test.answered += 1;
+
+  if (choice.isCorrect) {
+    state.test.correct += 1;
+  }
+}
+
 function applyGrade(grade) {
   const card = getCurrentCard();
   if (!card) {
@@ -235,6 +367,26 @@ function applyGrade(grade) {
 }
 
 function render() {
+  renderModeButtons();
+  renderMetrics();
+
+  if (state.mode === 'test') {
+    renderTestMode();
+    return;
+  }
+
+  renderFlashcardMode();
+}
+
+function renderModeButtons() {
+  elements.modeButtons.forEach((button) => {
+    const isActive = button.dataset.mode === state.mode;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+}
+
+function renderMetrics() {
   const currentCard = getCurrentCard();
   const filteredDeck = getFilteredDeck();
   const dueNow = filteredDeck.filter((card) => getCardProgress(card).attempts > 0 && getCardProgress(card).nextDue <= Date.now()).length;
@@ -256,6 +408,15 @@ function render() {
   elements.masteredCount.textContent = String(mastered);
   elements.cardBucket.textContent = state.currentBucket;
   elements.cardCount.textContent = `${filteredDeck.length} card${filteredDeck.length === 1 ? '' : 's'} in view`;
+
+  return { currentCard, filteredDeck };
+}
+
+function renderFlashcardMode() {
+  const { currentCard } = renderMetrics();
+
+  elements.cardButton.hidden = false;
+  elements.testPanel.hidden = true;
 
   if (!currentCard) {
     elements.cardButton.disabled = true;
@@ -290,11 +451,109 @@ function render() {
   }
 }
 
+function renderTestMode() {
+  const filteredDeck = getFilteredDeck();
+  const currentQuestion = getCurrentTestQuestion();
+
+  elements.cardButton.hidden = true;
+  elements.answerPanel.hidden = true;
+  elements.gradeActions.hidden = true;
+  elements.testPanel.hidden = false;
+
+  elements.cardBucket.textContent = filteredDeck.length
+    ? `Practice test · ${Math.min(10, filteredDeck.length)} question session`
+    : 'No cards in this filter';
+  elements.cardCount.textContent = `${filteredDeck.length} card${filteredDeck.length === 1 ? '' : 's'} available`;
+
+  if (!filteredDeck.length) {
+    elements.testProgress.textContent = 'Practice test';
+    elements.testScore.textContent = 'Score 0/0';
+    elements.testQuestion.textContent = 'No cards match the current filter.';
+    elements.testChoices.innerHTML = '';
+    elements.testFeedback.hidden = true;
+    elements.nextQuestionButton.hidden = true;
+    elements.startTestButton.hidden = false;
+    elements.statusText.textContent = 'Choose another domain filter to build a practice test.';
+    return;
+  }
+
+  if (!currentQuestion) {
+    startTestSession();
+    renderTestMode();
+    return;
+  }
+
+  const questionNumber = state.test.currentIndex + 1;
+  const totalQuestions = state.test.questions.length;
+  const selectedChoice = currentQuestion.choices[state.test.selectedChoice] || null;
+  const correctChoice = currentQuestion.choices.find((choice) => choice.isCorrect) || null;
+
+  elements.testProgress.textContent = `Question ${questionNumber} of ${totalQuestions}`;
+  elements.testScore.textContent = `Score ${state.test.correct}/${state.test.answered}`;
+  elements.testQuestion.textContent = currentQuestion.question;
+  elements.testChoices.innerHTML = '';
+
+  currentQuestion.choices.forEach((choice, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'choice-button';
+    button.textContent = `${index + 1}. ${choice.text}`;
+
+    if (state.test.revealed) {
+      button.disabled = true;
+      if (choice.isCorrect) {
+        button.classList.add('is-correct');
+      }
+      if (state.test.selectedChoice === index && !choice.isCorrect) {
+        button.classList.add('is-wrong');
+      }
+    }
+
+    button.addEventListener('click', () => {
+      selectTestChoice(index);
+      render();
+    });
+
+    elements.testChoices.append(button);
+  });
+
+  if (state.test.revealed) {
+    elements.testFeedback.hidden = false;
+    elements.testAnswer.textContent = `${selectedChoice?.isCorrect ? 'Correct.' : 'Not quite.'} ${correctChoice?.text || currentQuestion.answer}`;
+    elements.testRationale.textContent = currentQuestion.rationale;
+    elements.testSourceLink.href = currentQuestion.source;
+    elements.nextQuestionButton.hidden = false;
+    elements.startTestButton.hidden = true;
+    elements.statusText.textContent = selectedChoice?.isCorrect
+      ? 'Correct. Move to the next question when ready.'
+      : 'Review the explanation, then continue to the next question.';
+  } else {
+    elements.testFeedback.hidden = true;
+    elements.nextQuestionButton.hidden = true;
+    elements.startTestButton.hidden = false;
+    elements.startTestButton.textContent = 'Restart practice test';
+    elements.statusText.textContent = 'Select the best answer or use keys 1-4.';
+  }
+}
+
 function getFilteredDeck() {
   if (state.filter === 'all') {
     return state.deck;
   }
   return state.deck.filter((card) => card.shortDomain === state.filter);
+}
+
+function getCurrentTestQuestion() {
+  return state.test.questions[state.test.currentIndex] || null;
+}
+
+function shuffleArray(items) {
+  const clone = items.slice();
+  for (let index = clone.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [clone[index], clone[swapIndex]] = [clone[swapIndex], clone[index]];
+  }
+  return clone;
 }
 
 function getCurrentCard() {

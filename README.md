@@ -20,6 +20,8 @@ A no-build browser study tool for drilling AZ-900 concepts through short flashca
 ## Study workflow
 
 - Filter by domain when you want to target a weak area
+- Use Flashcards mode for spaced repetition review
+- Use Practice test mode for AZ-900-style multiple-choice checks
 - Flip cards with Space or a tap/click
 - Grade each answer as got it, close, or missed
 - Revisit due cards automatically through lightweight spaced repetition
