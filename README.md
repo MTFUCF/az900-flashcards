@@ -2,6 +2,10 @@
 
 Fast, repeatable AZ-900 exam drills with local progress tracking.
 
+## Live demo
+
+https://mtfucf.github.io/az900-flashcards/
+
 ## What it is
 
 A no-build browser study tool for drilling AZ-900 concepts through short flashcard rounds, confidence checks, and lightweight progress memory in localStorage. The repo stays buildless on purpose so it is easy to review, easy to host on GitHub Pages, and easy to extend with more practice content.
