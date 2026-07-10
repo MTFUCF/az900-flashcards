@@ -1,6 +1,7 @@
 const STORAGE_KEYS = {
   progress: 'az900-flashcards-progress-v1',
-  theme: 'az900-flashcards-theme-v1'
+  theme: 'az900-flashcards-theme-v1',
+  testHistory: 'az900-flashcards-test-history-v1'
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -22,7 +23,9 @@ const DOMAIN_MAP = {
 const state = {
   deck: [],
   progress: loadProgress(),
+  testHistory: loadTestHistory(),
   mode: 'flashcards',
+  testScope: 'all',
   testLength: 10,
   filter: 'all',
   currentCardId: null,
@@ -34,7 +37,8 @@ const state = {
     answered: 0,
     correct: 0,
     selectedChoice: null,
-    revealed: false
+    revealed: false,
+    completed: false
   }
 };
 
@@ -42,6 +46,7 @@ const elements = {
   themeToggle: document.querySelector('#themeToggle'),
   filterButtons: Array.from(document.querySelectorAll('[data-filter]')),
   modeButtons: Array.from(document.querySelectorAll('[data-mode]')),
+  testScopeButtons: Array.from(document.querySelectorAll('[data-test-scope]')),
   testLengthButtons: Array.from(document.querySelectorAll('[data-test-length]')),
   resetButton: document.querySelector('#resetProgress'),
   cardButton: document.querySelector('#cardButton'),
@@ -71,6 +76,9 @@ const elements = {
   testAnswer: document.querySelector('#testAnswerText'),
   testRationale: document.querySelector('#testRationaleText'),
   testSourceLink: document.querySelector('#testSourceLink'),
+  testSummary: document.querySelector('#testSummary'),
+  testSummaryText: document.querySelector('#testSummaryText'),
+  testDomainBreakdown: document.querySelector('#testDomainBreakdown'),
   startTestButton: document.querySelector('#startTestButton'),
   nextQuestionButton: document.querySelector('#nextQuestionButton')
 };
@@ -118,9 +126,27 @@ function attachEvents() {
     });
   });
 
+  elements.testScopeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.testScope = button.dataset.testScope;
+      if (state.testScope === 'mock') {
+        state.testLength = 50;
+      }
+
+      if (state.mode === 'test') {
+        startTestSession();
+      }
+
+      render();
+    });
+  });
+
   elements.testLengthButtons.forEach((button) => {
     button.addEventListener('click', () => {
       state.testLength = Number(button.dataset.testLength);
+      if (state.testScope === 'mock') {
+        state.testScope = 'all';
+      }
 
       if (state.mode === 'test') {
         startTestSession();
@@ -264,8 +290,8 @@ function chooseNextCard() {
 }
 
 function startTestSession() {
-  const candidates = shuffleArray(getFilteredDeck().slice());
-  const sessionLength = Math.min(state.testLength, candidates.length);
+  const candidates = shuffleArray(getTestCandidates().slice());
+  const sessionLength = Math.min(getRequestedTestLength(), candidates.length);
 
   state.test.questions = candidates.slice(0, sessionLength).map((card) => buildTestQuestion(card));
   state.test.currentIndex = 0;
@@ -273,6 +299,7 @@ function startTestSession() {
   state.test.correct = 0;
   state.test.selectedChoice = null;
   state.test.revealed = false;
+  state.test.completed = false;
 }
 
 function buildTestQuestion(card) {
@@ -298,11 +325,18 @@ function buildTestQuestion(card) {
     answer: card.answer,
     rationale: card.rationale,
     source: card.source,
+    selectedChoice: null,
+    answeredCorrect: null,
     choices
   };
 }
 
 function advanceTestQuestion() {
+  if (state.test.completed) {
+    startTestSession();
+    return;
+  }
+
   if (state.test.currentIndex < state.test.questions.length - 1) {
     state.test.currentIndex += 1;
     state.test.selectedChoice = null;
@@ -310,12 +344,13 @@ function advanceTestQuestion() {
     return;
   }
 
-  startTestSession();
+  state.test.completed = true;
+  state.test.revealed = false;
 }
 
 function selectTestChoice(choiceIndex) {
   const currentQuestion = getCurrentTestQuestion();
-  if (!currentQuestion || state.test.revealed) {
+  if (!currentQuestion || state.test.revealed || state.test.completed) {
     return;
   }
 
@@ -327,10 +362,28 @@ function selectTestChoice(choiceIndex) {
   state.test.selectedChoice = choiceIndex;
   state.test.revealed = true;
   state.test.answered += 1;
+  currentQuestion.selectedChoice = choiceIndex;
+  currentQuestion.answeredCorrect = choice.isCorrect;
+
+  recordTestOutcome(currentQuestion.id, choice.isCorrect ? 'correct' : 'missed');
 
   if (choice.isCorrect) {
     state.test.correct += 1;
   }
+}
+
+function recordTestOutcome(cardId, outcome) {
+  const entry = getTestHistory(cardId);
+  entry.lastOutcome = outcome;
+  entry.lastSeen = Date.now();
+
+  if (outcome === 'correct') {
+    entry.correct += 1;
+  } else {
+    entry.missed += 1;
+  }
+
+  saveTestHistory();
 }
 
 function applyGrade(grade) {
@@ -399,10 +452,17 @@ function renderModeButtons() {
     button.setAttribute('aria-pressed', String(isActive));
   });
 
+  elements.testScopeButtons.forEach((button) => {
+    const isActive = button.dataset.testScope === state.testScope;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
+
   elements.testLengthButtons.forEach((button) => {
     const isActive = Number(button.dataset.testLength) === state.testLength;
     button.classList.toggle('is-active', isActive);
     button.setAttribute('aria-pressed', String(isActive));
+    button.disabled = state.testScope === 'mock';
   });
 }
 
@@ -472,28 +532,43 @@ function renderFlashcardMode() {
 }
 
 function renderTestMode() {
-  const filteredDeck = getFilteredDeck();
+  const candidates = getTestCandidates();
   const currentQuestion = getCurrentTestQuestion();
 
   elements.cardButton.hidden = true;
   elements.answerPanel.hidden = true;
   elements.gradeActions.hidden = true;
   elements.testPanel.hidden = false;
+  elements.testSummary.hidden = true;
 
-  elements.cardBucket.textContent = filteredDeck.length
-    ? `Practice test · ${Math.min(state.testLength, filteredDeck.length)} question session`
+  const requestedLength = getRequestedTestLength();
+  const sessionLabel = getTestScopeLabel();
+
+  elements.cardBucket.textContent = candidates.length
+    ? `${sessionLabel} · ${Math.min(requestedLength, candidates.length)} question session`
     : 'No cards in this filter';
-  elements.cardCount.textContent = `${filteredDeck.length} card${filteredDeck.length === 1 ? '' : 's'} available`;
+  elements.cardCount.textContent = `${candidates.length} card${candidates.length === 1 ? '' : 's'} available`;
 
-  if (!filteredDeck.length) {
-    elements.testProgress.textContent = 'Practice test';
+  if (!candidates.length) {
+    elements.testProgress.textContent = sessionLabel;
     elements.testScore.textContent = 'Score 0/0';
-    elements.testQuestion.textContent = 'No cards match the current filter.';
+    elements.testQuestion.textContent = state.testScope === 'missed'
+      ? 'No missed questions are available yet. Miss a few flashcards or practice questions first.'
+      : 'No cards match the current filter.';
     elements.testChoices.innerHTML = '';
     elements.testFeedback.hidden = true;
+    elements.testSummary.hidden = true;
     elements.nextQuestionButton.hidden = true;
     elements.startTestButton.hidden = false;
-    elements.statusText.textContent = 'Choose another domain filter to build a practice test.';
+    elements.startTestButton.textContent = 'Start practice test';
+    elements.statusText.textContent = state.testScope === 'missed'
+      ? 'Build up a set of missed questions, then come back for targeted drills.'
+      : 'Choose another domain filter to build a practice test.';
+    return;
+  }
+
+  if (state.test.completed) {
+    renderCompletedTest();
     return;
   }
 
@@ -543,6 +618,7 @@ function renderTestMode() {
     elements.testRationale.textContent = currentQuestion.rationale;
     elements.testSourceLink.href = currentQuestion.source;
     elements.nextQuestionButton.hidden = false;
+    elements.nextQuestionButton.textContent = questionNumber === totalQuestions ? 'Finish test' : 'Next question';
     elements.startTestButton.hidden = true;
     elements.statusText.textContent = selectedChoice?.isCorrect
       ? 'Correct. Move to the next question when ready.'
@@ -551,9 +627,46 @@ function renderTestMode() {
     elements.testFeedback.hidden = true;
     elements.nextQuestionButton.hidden = true;
     elements.startTestButton.hidden = false;
-    elements.startTestButton.textContent = 'Restart practice test';
+    elements.startTestButton.textContent = state.test.answered ? 'Restart practice test' : 'Start practice test';
     elements.statusText.textContent = 'Select the best answer or use keys 1-4.';
   }
+}
+
+function renderCompletedTest() {
+  const totalQuestions = state.test.questions.length;
+  const percentage = totalQuestions ? Math.round((state.test.correct / totalQuestions) * 100) : 0;
+  const breakdown = buildDomainBreakdown();
+
+  elements.testProgress.textContent = `${getTestScopeLabel()} complete`;
+  elements.testScore.textContent = `Score ${state.test.correct}/${totalQuestions}`;
+  elements.testQuestion.textContent = 'Session complete.';
+  elements.testChoices.innerHTML = '';
+  elements.testFeedback.hidden = true;
+  elements.testSummary.hidden = false;
+  elements.testSummaryText.textContent = `${state.test.correct} correct out of ${totalQuestions} questions (${percentage}%).`;
+  elements.testDomainBreakdown.innerHTML = '';
+
+  breakdown.forEach((entry) => {
+    const block = document.createElement('div');
+    block.className = 'summary-card';
+
+    const title = document.createElement('strong');
+    title.textContent = DOMAIN_LABELS[entry.domain] || entry.domain;
+
+    const score = document.createElement('span');
+    score.textContent = `${entry.correct}/${entry.total} correct`;
+
+    const detail = document.createElement('span');
+    detail.textContent = `${entry.percentage}%`;
+
+    block.append(title, score, detail);
+    elements.testDomainBreakdown.append(block);
+  });
+
+  elements.startTestButton.hidden = false;
+  elements.startTestButton.textContent = 'Start new test';
+  elements.nextQuestionButton.hidden = true;
+  elements.statusText.textContent = 'Review the domain breakdown, then start another session when ready.';
 }
 
 function getFilteredDeck() {
@@ -561,6 +674,68 @@ function getFilteredDeck() {
     return state.deck;
   }
   return state.deck.filter((card) => card.shortDomain === state.filter);
+}
+
+function getTestCandidates() {
+  if (state.testScope === 'mock') {
+    return state.deck;
+  }
+
+  const filteredDeck = getFilteredDeck();
+  if (state.testScope === 'missed') {
+    return filteredDeck.filter((card) => isMissedCard(card));
+  }
+
+  return filteredDeck;
+}
+
+function getRequestedTestLength() {
+  return state.testScope === 'mock' ? 50 : state.testLength;
+}
+
+function getTestScopeLabel() {
+  if (state.testScope === 'mock') {
+    return 'Mock exam';
+  }
+
+  if (state.testScope === 'missed') {
+    return 'Missed-only test';
+  }
+
+  return 'Practice test';
+}
+
+function isMissedCard(card) {
+  const progress = getCardProgress(card);
+  const history = getTestHistory(card.id);
+  return progress.lastGrade === 'missed' || history.lastOutcome === 'missed' || history.missed > history.correct;
+}
+
+function buildDomainBreakdown() {
+  const summary = new Map();
+
+  state.test.questions.forEach((question) => {
+    const existing = summary.get(question.shortDomain) || {
+      domain: question.shortDomain,
+      total: 0,
+      correct: 0,
+      percentage: 0
+    };
+
+    existing.total += 1;
+    if (question.answeredCorrect) {
+      existing.correct += 1;
+    }
+
+    summary.set(question.shortDomain, existing);
+  });
+
+  return Array.from(summary.values())
+    .map((entry) => ({
+      ...entry,
+      percentage: entry.total ? Math.round((entry.correct / entry.total) * 100) : 0
+    }))
+    .sort((left, right) => left.domain.localeCompare(right.domain));
 }
 
 function getCurrentTestQuestion() {
@@ -613,6 +788,31 @@ function loadProgress() {
 
 function saveProgress() {
   localStorage.setItem(STORAGE_KEYS.progress, JSON.stringify(state.progress));
+}
+
+function getTestHistory(cardId) {
+  if (!state.testHistory[cardId]) {
+    state.testHistory[cardId] = {
+      correct: 0,
+      missed: 0,
+      lastOutcome: 'new',
+      lastSeen: 0
+    };
+  }
+
+  return state.testHistory[cardId];
+}
+
+function loadTestHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.testHistory)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveTestHistory() {
+  localStorage.setItem(STORAGE_KEYS.testHistory, JSON.stringify(state.testHistory));
 }
 
 function initializeTheme() {

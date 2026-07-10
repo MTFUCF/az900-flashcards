@@ -149,7 +149,8 @@ h1,
 .tips-list,
 .grade-actions,
 .choice-list,
-.test-actions {
+.test-actions,
+.summary-grid {
   display: grid;
   gap: 0.75rem;
 }
@@ -157,6 +158,10 @@ h1,
 .mode-group,
 .filter-group {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.controls-panel .mode-group:nth-of-type(2) {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .filter-button,
@@ -241,7 +246,8 @@ progress::-moz-progress-bar {
 }
 
 .test-panel,
-.test-shell {
+.test-shell,
+.summary-panel {
   display: grid;
   gap: 1rem;
 }
@@ -306,6 +312,27 @@ progress::-moz-progress-bar {
 
 .choice-list {
   grid-template-columns: 1fr;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.summary-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 84%, transparent 16%);
+}
+
+.summary-card strong {
+  font-size: 0.98rem;
+}
+
+.summary-card span {
+  color: var(--muted);
 }
 
 .choice-button {

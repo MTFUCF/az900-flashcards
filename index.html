@@ -38,11 +38,20 @@
           </section>
 
           <section>
+            <h2>Test focus</h2>
+            <div class="mode-group" role="tablist" aria-label="Practice test focus selector">
+              <button class="filter-button is-active" type="button" data-test-scope="all" aria-pressed="true">All cards</button>
+              <button class="filter-button" type="button" data-test-scope="missed" aria-pressed="false">Missed only</button>
+              <button class="filter-button" type="button" data-test-scope="mock" aria-pressed="false">Mock exam</button>
+            </div>
+          </section>
+
+          <section>
             <h2>Practice test length</h2>
             <div class="mode-group" role="tablist" aria-label="Practice test length selector">
               <button class="filter-button is-active" type="button" data-test-length="10" aria-pressed="true">10 questions</button>
               <button class="filter-button" type="button" data-test-length="20" aria-pressed="false">20 questions</button>
-              <button class="filter-button" type="button" data-test-length="40" aria-pressed="false">40 questions</button>
+              <button class="filter-button" type="button" data-test-length="50" aria-pressed="false">50 questions</button>
             </div>
           </section>
 
@@ -160,6 +169,14 @@
                 <a id="testSourceLink" href="#" target="_blank" rel="noreferrer">Microsoft Learn source</a>
               </p>
             </div>
+
+            <section id="testSummary" class="summary-panel" hidden>
+              <div>
+                <h3>Session results</h3>
+                <p id="testSummaryText"></p>
+              </div>
+              <div id="testDomainBreakdown" class="summary-grid"></div>
+            </section>
 
             <div class="test-actions">
               <button id="startTestButton" class="grade-button" type="button">Start practice test</button>

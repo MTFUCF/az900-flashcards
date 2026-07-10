@@ -1,15 +1,15 @@
 {
   "metadata": {
-    "version": "1.1",
+    "version": "1.2",
     "date_created": "2026-07-10",
     "description": "AZ-900 exam flashcard bank covering major cloud fundamentals domains",
-    "total_questions": 70,
+    "total_questions": 90,
     "domain_distribution": {
-      "Cloud Concepts": 14,
-      "Core Architectural Components": 14,
-      "Compute, Networking, and Storage": 14,
-      "Security, Privacy, and Compliance": 14,
-      "Management and Governance": 14
+      "Cloud Concepts": 18,
+      "Core Architectural Components": 18,
+      "Compute, Networking, and Storage": 18,
+      "Security, Privacy, and Compliance": 18,
+      "Management and Governance": 18
     }
   },
   "flashcards": [
@@ -641,6 +641,186 @@
       "question": "What does a service-level agreement communicate in Azure?",
       "answer": "A service-level agreement communicates the expected availability commitment for a service and the conditions under which service credits may apply.",
       "rationale": "SLA questions are common in AZ-900 because they connect architecture decisions with business expectations and uptime commitments.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-071",
+      "domain": "Cloud Concepts",
+      "subdomain": "Scenario",
+      "question": "A startup wants developers to deploy web features quickly without managing operating systems. Which cloud model is the best fit?",
+      "answer": "Platform as a Service is the best fit because it lets the team focus on the application while the platform provider manages the operating system and runtime foundation.",
+      "rationale": "Scenario questions often test whether you can map a business goal like faster delivery to the correct service model.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-072",
+      "domain": "Cloud Concepts",
+      "subdomain": "Scenario",
+      "question": "A retailer has dramatic holiday traffic spikes and wants to avoid buying idle hardware for the rest of the year. Which cloud concept best addresses that need?",
+      "answer": "Elasticity best addresses that need because cloud resources can scale up for peak periods and scale down afterward instead of staying permanently overprovisioned.",
+      "rationale": "This is a classic fundamentals scenario that links elasticity directly to cost control.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-073",
+      "domain": "Cloud Concepts",
+      "subdomain": "Scenario",
+      "question": "An organization must keep some systems on-premises for regulatory reasons but wants to extend other workloads into Azure. What cloud approach does this describe?",
+      "answer": "This describes a hybrid cloud approach because the organization is combining on-premises resources with public cloud resources.",
+      "rationale": "Hybrid scenarios are frequently presented through business constraints instead of pure definitions.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-074",
+      "domain": "Cloud Concepts",
+      "subdomain": "Scenario",
+      "question": "A finance team wants monthly infrastructure spending to track actual usage instead of large upfront purchases. Which cloud cost concept supports that goal?",
+      "answer": "Operational expenditure supported by consumption-based pricing supports that goal because spending aligns more closely to actual ongoing usage.",
+      "rationale": "AZ-900 often frames OpEx and pay-as-you-go as business outcomes rather than vocabulary alone.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-075",
+      "domain": "Core Architectural Components",
+      "subdomain": "Scenario",
+      "question": "A company wants separate billing and access boundaries for development, testing, and production workloads. Which Azure construct is the best fit?",
+      "answer": "Separate Azure subscriptions are the best fit because subscriptions provide natural billing, governance, and access boundaries.",
+      "rationale": "This is a common scenario-driven test of subscription purpose beyond simple billing terminology.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-076",
+      "domain": "Core Architectural Components",
+      "subdomain": "Scenario",
+      "question": "A team needs a workload to survive the loss of an entire datacenter within one Azure region. Which architectural feature most directly addresses that need?",
+      "answer": "Availability zones most directly address that need because they distribute resources across physically separate datacenter locations within a region.",
+      "rationale": "The scenario tests whether you can distinguish datacenter-level resilience from region-level resilience.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-077",
+      "domain": "Core Architectural Components",
+      "subdomain": "Scenario",
+      "question": "An enterprise needs one place to apply common governance and policy settings across many subscriptions. Which Azure scope should it start with?",
+      "answer": "It should start with management groups because management groups let organizations apply governance and policy settings across multiple subscriptions.",
+      "rationale": "This scenario emphasizes governance reach rather than resource placement.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-078",
+      "domain": "Core Architectural Components",
+      "subdomain": "Scenario",
+      "question": "A solution uses resources in East US and West Europe but the team wants to manage them as one logical application container. Which Azure construct makes that possible?",
+      "answer": "A resource group makes that possible because it is a logical management container and does not force all contained resources into the same region.",
+      "rationale": "This is a subtle but common AZ-900 distinction between logical grouping and physical deployment location.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-079",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Scenario",
+      "question": "A line-of-business app requires custom drivers and full control of the operating system. Which Azure compute option is the best fit?",
+      "answer": "Azure Virtual Machines are the best fit because they provide guest operating system control and support custom software installation.",
+      "rationale": "Scenario wording here is meant to steer you away from serverless and platform services.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-080",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Scenario",
+      "question": "An app should resize uploaded images only when a file arrives and should avoid running servers when idle. Which Azure service best fits that requirement?",
+      "answer": "Azure Functions best fits that requirement because it is event-driven and can run code in response to an upload trigger without dedicated server management.",
+      "rationale": "This is a common serverless scenario framed through workload behavior.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-081",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Scenario",
+      "question": "Employees need a managed cloud file share that existing applications can mount over SMB. Which Azure storage service is the best fit?",
+      "answer": "Azure Files is the best fit because it provides managed cloud file shares that can be accessed using SMB.",
+      "rationale": "This tests practical differentiation between files, blobs, and disks.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-082",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Scenario",
+      "question": "A company serves static content to users around the world and wants to reduce latency by caching closer to them. Which Azure service category helps most?",
+      "answer": "A content delivery network helps most because it caches content at edge locations closer to users.",
+      "rationale": "This scenario focuses on global performance rather than compute or storage alone.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-083",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Scenario",
+      "question": "An administrator should be able to restart virtual machines in one resource group but should not manage resources elsewhere. Which Azure capability should be used first?",
+      "answer": "Azure RBAC should be used first because it allows permission assignment at a scoped level such as a resource group.",
+      "rationale": "This is a fundamentals scenario about least privilege and scope selection.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-084",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Scenario",
+      "question": "A web app team needs a secure place to store connection strings, certificates, and encryption keys outside source control. Which Azure service best fits?",
+      "answer": "Azure Key Vault best fits because it securely stores and controls access to secrets, keys, and certificates.",
+      "rationale": "Scenario-style security questions often focus on selecting the correct Azure control for secret handling.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-085",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Scenario",
+      "question": "A company wants users signing in from risky locations to be prompted for extra verification before accessing cloud apps. Which Microsoft Entra capability supports this?",
+      "answer": "Conditional Access supports this because it evaluates signals such as location or risk and can require multifactor authentication before access is granted.",
+      "rationale": "This ties identity protection concepts to a realistic access-control scenario.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-086",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Scenario",
+      "question": "An auditor asks where Microsoft publishes compliance reports, privacy details, and trust documentation for its cloud services. Where should the team look?",
+      "answer": "The team should look in the Service Trust Portal because it provides Microsoft compliance reports, privacy resources, and trust documentation.",
+      "rationale": "This is a standard compliance resource identification question in AZ-900 study.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-087",
+      "domain": "Management and Governance",
+      "subdomain": "Scenario",
+      "question": "An operations team wants Azure to recommend ways to reduce cost, improve reliability, and strengthen security posture. Which Azure service should they review first?",
+      "answer": "They should review Azure Advisor first because it provides personalized recommendations across cost, security, reliability, performance, and operational excellence.",
+      "rationale": "Scenario questions like this test whether you can map a broad optimization goal to the right advisory service.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-088",
+      "domain": "Management and Governance",
+      "subdomain": "Scenario",
+      "question": "A central IT team wants to block new resources from being deployed outside approved regions. Which Azure governance feature should it use?",
+      "answer": "Azure Policy should be used because it can enforce allowed locations and deny noncompliant deployments.",
+      "rationale": "This is a direct scenario application of governance policy rather than identity permissions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-089",
+      "domain": "Management and Governance",
+      "subdomain": "Scenario",
+      "question": "A platform team wants notifications only when Azure incidents or maintenance events affect its own subscribed services and regions. Which tool is the best fit?",
+      "answer": "Azure Service Health is the best fit because it provides personalized information about incidents, maintenance, and advisories relevant to your services and regions.",
+      "rationale": "This distinguishes Service Health from broader Azure status pages and general monitoring tools.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-090",
+      "domain": "Management and Governance",
+      "subdomain": "Scenario",
+      "question": "A company wants to estimate whether moving an on-premises workload to Azure could lower total infrastructure cost over time. Which Azure tool is designed for that comparison?",
+      "answer": "The Total Cost of Ownership calculator is designed for that comparison because it helps estimate Azure cost relative to equivalent on-premises infrastructure.",
+      "rationale": "This is a planning scenario, not a day-to-day spending analysis scenario.",
       "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
     }
   ]
