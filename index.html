@@ -1,0 +1,132 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta
+      name="description"
+      content="AZ-900 flashcards with domain filters, spaced repetition, and keyboard-friendly study controls."
+    />
+    <title>AZ-900 Flashcards</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <div>
+          <p class="eyebrow">AZ-900 study deck</p>
+          <h1>AZ-900 Flashcards</h1>
+          <p class="subtitle">Question, flip, grade, and recycle cards across cloud concepts, core Azure services, security, and governance.</p>
+        </div>
+        <button id="themeToggle" class="theme-button" type="button" aria-label="Toggle color theme">🌙 Dark mode</button>
+      </header>
+
+      <main class="layout">
+        <aside class="panel controls-panel" aria-label="Study controls">
+          <section>
+            <h2>Domain filter</h2>
+            <div class="filter-group">
+              <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All domains</button>
+              <button class="filter-button" type="button" data-filter="Cloud" aria-pressed="false">Cloud concepts</button>
+              <button class="filter-button" type="button" data-filter="Architecture" aria-pressed="false">Architecture</button>
+              <button class="filter-button" type="button" data-filter="Services" aria-pressed="false">Core services</button>
+              <button class="filter-button" type="button" data-filter="Security" aria-pressed="false">Security</button>
+              <button class="filter-button" type="button" data-filter="Management" aria-pressed="false">Governance</button>
+            </div>
+          </section>
+
+          <section>
+            <h2>Progress</h2>
+            <div class="progress-block">
+              <strong id="progressSummary">Seen 0 of 0 cards · Mastered 0</strong>
+              <span>New cards are served first, then due reviews.</span>
+            </div>
+            <div class="metric-grid">
+              <div class="metric">
+                <strong id="totalCards">0</strong>
+                <span>Total cards</span>
+              </div>
+              <div class="metric">
+                <strong id="dueCount">0</strong>
+                <span>Due now</span>
+              </div>
+              <div class="metric">
+                <strong id="masteredCount">0</strong>
+                <span>Mastered</span>
+              </div>
+            </div>
+            <div class="progress-block">
+              <span>Seen</span>
+              <progress id="seenProgress" value="0" max="1"></progress>
+            </div>
+            <div class="progress-block">
+              <span>Mastered</span>
+              <progress id="masteryProgress" value="0" max="1"></progress>
+            </div>
+          </section>
+
+          <section>
+            <h2>Shortcuts</h2>
+            <ul class="tips-list">
+              <li>Space flips the current card.</li>
+              <li>1 = Got it ✓</li>
+              <li>2 = Close 🤔</li>
+              <li>3 = Missed ✗</li>
+            </ul>
+          </section>
+
+          <button id="resetProgress" class="ghost-button" type="button">Reset progress</button>
+        </aside>
+
+        <section class="panel study-panel" aria-label="Flashcard study area">
+          <div class="study-meta">
+            <span id="cardBucket" class="pill">Loading deck…</span>
+            <span id="cardCount" class="muted">0 cards in view</span>
+          </div>
+
+          <button id="cardButton" class="flashcard" type="button" aria-expanded="false">
+            <div class="flashcard-header">
+              <span id="domainPill" class="pill">Question</span>
+              <span id="subdomain" class="muted">Waiting for deck</span>
+            </div>
+            <h2 id="questionText">Load the AZ-900 deck to begin.</h2>
+          </button>
+
+          <div id="answerPanel" class="answer-panel" hidden>
+            <div>
+              <h3>Answer</h3>
+              <p id="answerText"></p>
+            </div>
+            <div>
+              <h3>Why it matters</h3>
+              <p id="rationaleText"></p>
+            </div>
+            <p>
+              <a id="sourceLink" href="#" target="_blank" rel="noreferrer">Microsoft Learn source</a>
+            </p>
+          </div>
+
+          <div id="gradeActions" class="grade-actions" hidden>
+            <button class="grade-button" type="button" data-grade="got-it">1 · Got it ✓</button>
+            <button class="grade-button" type="button" data-grade="close">2 · Close 🤔</button>
+            <button class="grade-button" type="button" data-grade="missed">3 · Missed ✗</button>
+          </div>
+
+          <p id="statusText" class="helper-text">Press Space or tap the card to flip it.</p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        Built by Matthew Faber · <a href="https://github.com/MTFUCF/az900-flashcards">source</a>
+      </footer>
+    </div>
+
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

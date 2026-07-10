@@ -1,0 +1,377 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "date_created": "2026-07-10",
+    "description": "AZ-900 exam flashcard bank covering major cloud fundamentals domains",
+    "total_questions": 40,
+    "domain_distribution": {
+      "Cloud Concepts": 8,
+      "Core Architectural Components": 8,
+      "Compute, Networking, and Storage": 8,
+      "Security, Privacy, and Compliance": 8,
+      "Management and Governance": 8
+    }
+  },
+  "flashcards": [
+    {
+      "id": "az900-001",
+      "domain": "Cloud Concepts",
+      "subdomain": "Service Models",
+      "question": "Which cloud service model gives you the most control over the operating system and installed software?",
+      "answer": "Infrastructure as a Service gives you the most control because you manage the guest operating system, installed software, and most runtime configuration.",
+      "rationale": "In IaaS, Microsoft manages the physical datacenter and underlying infrastructure, but the customer still manages more of the software stack than in PaaS or SaaS.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-002",
+      "domain": "Cloud Concepts",
+      "subdomain": "Service Models",
+      "question": "Why is PaaS often faster for developers than IaaS?",
+      "answer": "PaaS is faster because the platform provider manages the operating system, runtime, scaling foundations, and maintenance tasks so developers can focus on the application itself.",
+      "rationale": "AZ-900 often tests whether you understand when managed platforms reduce operational overhead compared to managing your own virtual machines.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-003",
+      "domain": "Cloud Concepts",
+      "subdomain": "Deployment Models",
+      "question": "What is the defining characteristic of a hybrid cloud approach?",
+      "answer": "A hybrid cloud approach combines on-premises resources with public cloud resources and allows workloads or data to span both environments.",
+      "rationale": "Hybrid is not just using multiple datacenters. The key idea is integrating local and cloud environments for flexibility, compliance, or migration.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-004",
+      "domain": "Cloud Concepts",
+      "subdomain": "Deployment Models",
+      "question": "What is a multi-cloud strategy?",
+      "answer": "A multi-cloud strategy means using services from more than one cloud provider, such as Azure plus another public cloud, to meet business or technical goals.",
+      "rationale": "Hybrid and multi-cloud are different. Hybrid mixes on-premises with cloud, while multi-cloud refers to using multiple cloud providers.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-005",
+      "domain": "Cloud Concepts",
+      "subdomain": "Economics",
+      "question": "What is the difference between CapEx and OpEx in cloud discussions?",
+      "answer": "CapEx is upfront capital spending on assets such as hardware, while OpEx is ongoing operational spending based on usage, subscriptions, or recurring costs.",
+      "rationale": "A core cloud benefit is shifting many costs from large upfront purchases toward more flexible operating expenses.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-006",
+      "domain": "Cloud Concepts",
+      "subdomain": "Benefits",
+      "question": "Which cloud benefit lets you add or remove resources quickly as demand changes?",
+      "answer": "Elasticity lets you scale resources up or down quickly in response to changes in demand.",
+      "rationale": "Elasticity is about responsive scaling. High availability and reliability are different concepts and do not specifically mean rapid resizing.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-007",
+      "domain": "Cloud Concepts",
+      "subdomain": "Benefits",
+      "question": "What is high availability designed to achieve?",
+      "answer": "High availability is designed to keep services accessible with minimal downtime, even when some components fail.",
+      "rationale": "The exam distinguishes between availability, reliability, scalability, and predictability. Availability is about uptime from the user perspective.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-008",
+      "domain": "Cloud Concepts",
+      "subdomain": "Consumption-Based Pricing",
+      "question": "Why can consumption-based pricing reduce waste for some workloads?",
+      "answer": "It can reduce waste because you pay for the resources you actually consume instead of permanently purchasing capacity for peak demand.",
+      "rationale": "This is especially helpful for variable or seasonal workloads, where owning fixed infrastructure often means paying for idle capacity.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-009",
+      "domain": "Core Architectural Components",
+      "subdomain": "Regions",
+      "question": "What is an Azure region?",
+      "answer": "An Azure region is a geographic area containing one or more datacenters that are connected through a low-latency network.",
+      "rationale": "Regions are the basic geographic building blocks for deploying Azure resources and planning latency, residency, and resiliency.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-010",
+      "domain": "Core Architectural Components",
+      "subdomain": "Region Pairs",
+      "question": "Why are Azure region pairs useful for disaster recovery planning?",
+      "answer": "Region pairs help with disaster recovery because Microsoft prioritizes recovery across paired regions and keeps some platform updates staggered between them.",
+      "rationale": "AZ-900 expects a conceptual understanding of how region pairs support resiliency rather than a deep implementation-level design.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-011",
+      "domain": "Core Architectural Components",
+      "subdomain": "Availability Zones",
+      "question": "What problem do availability zones address?",
+      "answer": "Availability zones protect against datacenter-level failures within a region by placing resources in physically separate locations with independent power, cooling, and networking.",
+      "rationale": "Zones improve resiliency inside a single region. Regions address geographic placement; zones address separation within the region.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-012",
+      "domain": "Core Architectural Components",
+      "subdomain": "Resource Hierarchy",
+      "question": "What is the relationship between subscriptions and resource groups?",
+      "answer": "A subscription contains resource groups, and each resource group contains related Azure resources for a solution or workload.",
+      "rationale": "This hierarchy matters for billing, access control, and organization. The exam commonly tests which layer owns which scope.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-013",
+      "domain": "Core Architectural Components",
+      "subdomain": "Resource Groups",
+      "question": "Why would you place related Azure resources in the same resource group?",
+      "answer": "You place related resources in the same resource group to manage them together for lifecycle operations, access control, monitoring, and automation.",
+      "rationale": "Resource groups are logical containers. They simplify deployment and cleanup when resources belong to the same application or project.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-014",
+      "domain": "Core Architectural Components",
+      "subdomain": "Management Groups",
+      "question": "When are management groups useful in Azure?",
+      "answer": "Management groups are useful when you need to apply governance, policy, or access controls across multiple subscriptions in a consistent way.",
+      "rationale": "They sit above subscriptions and are primarily about large-scale administration, not about hosting individual resources.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-015",
+      "domain": "Core Architectural Components",
+      "subdomain": "Azure Resource Manager",
+      "question": "What does Azure Resource Manager provide?",
+      "answer": "Azure Resource Manager provides the management layer for deploying, organizing, and controlling Azure resources consistently across the platform.",
+      "rationale": "ARM enables templates, role-based access control, tagging, and policy enforcement. It is a control plane concept, not an individual resource type.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-016",
+      "domain": "Core Architectural Components",
+      "subdomain": "Resource Types",
+      "question": "What is an Azure resource?",
+      "answer": "An Azure resource is a manageable item available through Azure, such as a virtual machine, storage account, virtual network, or database.",
+      "rationale": "AZ-900 expects you to understand that Azure is built from many service-specific resource types that can be grouped, tagged, and governed consistently.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-017",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Compute Choices",
+      "question": "When is Azure Virtual Machines a better fit than Azure Functions?",
+      "answer": "Azure Virtual Machines are a better fit when you need full operating system control, custom software installation, or long-running server workloads.",
+      "rationale": "Functions are event-driven and serverless. VMs are more flexible but require more management responsibility.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-018",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Serverless",
+      "question": "What is a key characteristic of Azure Functions?",
+      "answer": "Azure Functions is an event-driven serverless compute service that runs code in response to triggers without requiring you to manage servers directly.",
+      "rationale": "This makes Functions a strong fit for short-lived automation, APIs, and background processing scenarios with variable demand.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-019",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Containers",
+      "question": "What does Azure Container Instances provide?",
+      "answer": "Azure Container Instances provides a way to run containers on demand without managing virtual machines or a full container orchestration platform.",
+      "rationale": "ACI is simpler than AKS when you just need quick container execution and not full Kubernetes control.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-020",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Virtual Networking",
+      "question": "What is the purpose of an Azure virtual network?",
+      "answer": "An Azure virtual network provides a private networking boundary for Azure resources so they can communicate securely with each other, the internet, or on-premises networks.",
+      "rationale": "VNets are foundational for network isolation and connectivity design in Azure.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-021",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Load Balancing",
+      "question": "What problem does Azure Load Balancer solve?",
+      "answer": "Azure Load Balancer distributes incoming network traffic across multiple backend resources to improve availability and scale.",
+      "rationale": "At the AZ-900 level, you should know the broad purpose of balancing traffic rather than the detailed SKU or layer differences.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-022",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Storage Types",
+      "question": "Which Azure storage service is best suited for unstructured objects such as images, backups, and log files?",
+      "answer": "Azure Blob Storage is best suited for unstructured object data such as images, backups, media, and logs.",
+      "rationale": "Blob storage is object storage. File shares, disks, and queues solve different problems.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-023",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Storage Redundancy",
+      "question": "Why would an organization choose geo-redundant storage?",
+      "answer": "Geo-redundant storage replicates data to a secondary region, helping protect against a regional outage.",
+      "rationale": "Redundancy options balance resilience and cost. The exam often tests whether you know what broader failure scope each option protects against.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-024",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Identity",
+      "question": "What is Microsoft Entra ID used for in Azure?",
+      "answer": "Microsoft Entra ID provides identity and access management for users, groups, applications, and devices across Azure and other cloud-connected services.",
+      "rationale": "Even in AZ-900, identity is central. Entra ID supports sign-in, role assignments, application identity, and governance controls.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-025",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Shared Responsibility",
+      "question": "In a SaaS model, who usually manages the application and platform updates?",
+      "answer": "In a SaaS model, the cloud provider usually manages the application and platform updates.",
+      "rationale": "The customer still manages data, users, and some configuration, but SaaS shifts more operational responsibility to the provider than IaaS or PaaS.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-026",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Network Security",
+      "question": "What does a network security group control?",
+      "answer": "A network security group controls inbound and outbound network traffic to Azure resources by using allow and deny rules.",
+      "rationale": "NSGs are basic traffic filters at the subnet or network interface level. They are not identity controls.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-027",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Defense Services",
+      "question": "What is Azure DDoS Protection designed to mitigate?",
+      "answer": "Azure DDoS Protection is designed to mitigate distributed denial-of-service attacks that attempt to overwhelm internet-facing resources.",
+      "rationale": "This service focuses on availability threats caused by malicious traffic floods.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-028",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Secrets Management",
+      "question": "When should Azure Key Vault be used?",
+      "answer": "Azure Key Vault should be used to securely store and control access to secrets, keys, and certificates.",
+      "rationale": "Hardcoding secrets in application settings or source control is risky. Key Vault centralizes and protects sensitive material.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-029",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Compliance",
+      "question": "Why do organizations review Azure compliance offerings?",
+      "answer": "Organizations review Azure compliance offerings to understand how Microsoft supports regulatory, industry, and standards-based requirements for cloud workloads.",
+      "rationale": "AZ-900 expects you to know that Microsoft publishes compliance documentation and certifications, which help with trust and governance decisions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-030",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Zero Trust",
+      "question": "What is the basic idea behind Zero Trust?",
+      "answer": "Zero Trust assumes no implicit trust and requires each access request to be verified explicitly using identity, device, and other signals.",
+      "rationale": "The model moves away from assuming anything inside a network boundary is automatically safe.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-031",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Identity Protection",
+      "question": "What is the value of multifactor authentication in Azure environments?",
+      "answer": "Multifactor authentication reduces the chance that a stolen password alone can be used to compromise an account.",
+      "rationale": "MFA is one of the most important foundational controls and commonly appears in fundamental cloud security questions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-032",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Threat Protection",
+      "question": "What is Microsoft Defender for Cloud meant to help with at a high level?",
+      "answer": "Microsoft Defender for Cloud helps improve security posture, identify vulnerabilities, and protect workloads across cloud and hybrid environments.",
+      "rationale": "At the AZ-900 level, know it as a cloud security posture and workload protection service rather than memorizing advanced configuration detail.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-033",
+      "domain": "Management and Governance",
+      "subdomain": "Cost Management",
+      "question": "What is the purpose of Azure Cost Management?",
+      "answer": "Azure Cost Management helps track, analyze, and optimize cloud spending across subscriptions and resources.",
+      "rationale": "This service supports budgeting, cost visibility, and identification of waste or trend changes.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-034",
+      "domain": "Management and Governance",
+      "subdomain": "Pricing Tools",
+      "question": "Which Azure tool helps estimate the expected cost of a planned solution before deployment?",
+      "answer": "The Azure pricing calculator helps estimate expected costs before deployment.",
+      "rationale": "This differs from Cost Management, which analyzes actual or allocated spending after services are in use.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-035",
+      "domain": "Management and Governance",
+      "subdomain": "Support and Planning",
+      "question": "What is the purpose of the Azure Total Cost of Ownership calculator?",
+      "answer": "The TCO calculator helps compare the estimated cost of running workloads on Azure versus maintaining equivalent on-premises infrastructure.",
+      "rationale": "It is intended for migration and business-case planning rather than for detailed daily cost monitoring.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-036",
+      "domain": "Management and Governance",
+      "subdomain": "Governance",
+      "question": "What does Azure Policy do?",
+      "answer": "Azure Policy evaluates resources against rules and can enforce or audit organizational standards, such as allowed regions, tags, or SKUs.",
+      "rationale": "Policy is a governance tool. It does not replace identity permissions, but it helps keep deployments compliant with standards.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-037",
+      "domain": "Management and Governance",
+      "subdomain": "Locking Resources",
+      "question": "Why would you apply a resource lock in Azure?",
+      "answer": "You would apply a resource lock to prevent accidental deletion or modification of important resources.",
+      "rationale": "Locks add protection against mistakes. They are especially useful on shared or critical infrastructure.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-038",
+      "domain": "Management and Governance",
+      "subdomain": "Monitoring",
+      "question": "What does Azure Monitor do?",
+      "answer": "Azure Monitor collects, analyzes, and acts on telemetry from Azure and other environments so you can understand health, performance, and operational issues.",
+      "rationale": "At a fundamental level, know Azure Monitor as the core monitoring platform for metrics, logs, alerts, and dashboards.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-039",
+      "domain": "Management and Governance",
+      "subdomain": "Service Health",
+      "question": "What kind of information does Azure Service Health provide?",
+      "answer": "Azure Service Health provides personalized information about Azure incidents, maintenance, and advisories that may affect your subscribed services and regions.",
+      "rationale": "It is focused on platform events and notifications relevant to your environment, not just generic Azure status.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-040",
+      "domain": "Management and Governance",
+      "subdomain": "Infrastructure as Code",
+      "question": "Why are ARM templates or Bicep useful even in simple Azure environments?",
+      "answer": "They are useful because they make deployments repeatable, consistent, and easier to review compared to manual point-and-click provisioning.",
+      "rationale": "AZ-900 does not require authoring expertise, but it helps to understand why declarative deployment approaches matter.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    }
+  ]
+}
