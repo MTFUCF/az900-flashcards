@@ -79,6 +79,5 @@ The question deck is original study content designed to reinforce the AZ-900 obj
 ## Author
 
 **Matthew Faber**  
-Matthew Faber builds hands-on study projects that turn certification objectives into practical, repeatable review tools.
 
 
