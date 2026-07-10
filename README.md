@@ -22,6 +22,7 @@ A no-build browser study tool for drilling AZ-900 concepts through short flashca
 - Filter by domain when you want to target a weak area
 - Use Flashcards mode for spaced repetition review
 - Use Practice test mode for AZ-900-style multiple-choice checks
+- Switch between 10, 20, and 40 question practice sessions depending on how much exam-style drilling you want
 - Flip cards with Space or a tap/click
 - Grade each answer as got it, close, or missed
 - Revisit due cards automatically through lightweight spaced repetition
@@ -81,6 +82,8 @@ This repo includes `.github/workflows/deploy-pages.yml` for GitHub Pages.
 ## Notes
 
 The question deck is original study content designed to reinforce the AZ-900 objective areas. It is not a dump of real exam questions.
+
+The deck intentionally goes broader than the initial fundamentals set so you can use the same app for short daily review and longer practice-test sessions.
 
 ## Author
 

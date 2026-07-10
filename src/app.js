@@ -23,6 +23,7 @@ const state = {
   deck: [],
   progress: loadProgress(),
   mode: 'flashcards',
+  testLength: 10,
   filter: 'all',
   currentCardId: null,
   flipped: false,
@@ -41,6 +42,7 @@ const elements = {
   themeToggle: document.querySelector('#themeToggle'),
   filterButtons: Array.from(document.querySelectorAll('[data-filter]')),
   modeButtons: Array.from(document.querySelectorAll('[data-mode]')),
+  testLengthButtons: Array.from(document.querySelectorAll('[data-test-length]')),
   resetButton: document.querySelector('#resetProgress'),
   cardButton: document.querySelector('#cardButton'),
   cardBucket: document.querySelector('#cardBucket'),
@@ -110,6 +112,18 @@ function attachEvents() {
       } else {
         state.flipped = false;
         chooseNextCard();
+      }
+
+      render();
+    });
+  });
+
+  elements.testLengthButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.testLength = Number(button.dataset.testLength);
+
+      if (state.mode === 'test') {
+        startTestSession();
       }
 
       render();
@@ -251,7 +265,7 @@ function chooseNextCard() {
 
 function startTestSession() {
   const candidates = shuffleArray(getFilteredDeck().slice());
-  const sessionLength = Math.min(10, candidates.length);
+  const sessionLength = Math.min(state.testLength, candidates.length);
 
   state.test.questions = candidates.slice(0, sessionLength).map((card) => buildTestQuestion(card));
   state.test.currentIndex = 0;
@@ -384,6 +398,12 @@ function renderModeButtons() {
     button.classList.toggle('is-active', isActive);
     button.setAttribute('aria-pressed', String(isActive));
   });
+
+  elements.testLengthButtons.forEach((button) => {
+    const isActive = Number(button.dataset.testLength) === state.testLength;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
+  });
 }
 
 function renderMetrics() {
@@ -461,7 +481,7 @@ function renderTestMode() {
   elements.testPanel.hidden = false;
 
   elements.cardBucket.textContent = filteredDeck.length
-    ? `Practice test · ${Math.min(10, filteredDeck.length)} question session`
+    ? `Practice test · ${Math.min(state.testLength, filteredDeck.length)} question session`
     : 'No cards in this filter';
   elements.cardCount.textContent = `${filteredDeck.length} card${filteredDeck.length === 1 ? '' : 's'} available`;
 

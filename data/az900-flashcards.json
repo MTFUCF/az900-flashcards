@@ -1,15 +1,15 @@
 {
   "metadata": {
-    "version": "1.0",
+    "version": "1.1",
     "date_created": "2026-07-10",
     "description": "AZ-900 exam flashcard bank covering major cloud fundamentals domains",
-    "total_questions": 40,
+    "total_questions": 70,
     "domain_distribution": {
-      "Cloud Concepts": 8,
-      "Core Architectural Components": 8,
-      "Compute, Networking, and Storage": 8,
-      "Security, Privacy, and Compliance": 8,
-      "Management and Governance": 8
+      "Cloud Concepts": 14,
+      "Core Architectural Components": 14,
+      "Compute, Networking, and Storage": 14,
+      "Security, Privacy, and Compliance": 14,
+      "Management and Governance": 14
     }
   },
   "flashcards": [
@@ -371,6 +371,276 @@
       "question": "Why are ARM templates or Bicep useful even in simple Azure environments?",
       "answer": "They are useful because they make deployments repeatable, consistent, and easier to review compared to manual point-and-click provisioning.",
       "rationale": "AZ-900 does not require authoring expertise, but it helps to understand why declarative deployment approaches matter.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-041",
+      "domain": "Cloud Concepts",
+      "subdomain": "Availability and Reliability",
+      "question": "How is reliability different from high availability in cloud discussions?",
+      "answer": "Reliability is the ability of a system to recover from failures and keep operating over time, while high availability focuses on keeping the service accessible with minimal downtime.",
+      "rationale": "The AZ-900 exam often tests similar-sounding cloud benefits. Reliability emphasizes resilience and recovery, not just immediate uptime.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-042",
+      "domain": "Cloud Concepts",
+      "subdomain": "Scalability",
+      "question": "What is the difference between vertical scaling and horizontal scaling?",
+      "answer": "Vertical scaling increases the capacity of an existing resource, while horizontal scaling adds more resource instances to share the workload.",
+      "rationale": "Both are common cloud scaling patterns. AZ-900 expects a conceptual distinction rather than implementation detail.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-043",
+      "domain": "Cloud Concepts",
+      "subdomain": "Predictability",
+      "question": "Why is predictability considered a cloud benefit?",
+      "answer": "Predictability is a cloud benefit because standardized services and telemetry make performance and cost easier to estimate and monitor over time.",
+      "rationale": "This connects architecture choices with operational visibility and budgeting, which is a recurring fundamentals theme.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-044",
+      "domain": "Cloud Concepts",
+      "subdomain": "Economics",
+      "question": "Why can moving to the cloud reduce the need for overprovisioning?",
+      "answer": "The cloud can reduce overprovisioning because resources can be scaled closer to actual demand instead of buying enough hardware for peak usage in advance.",
+      "rationale": "This is one of the clearest practical links between elasticity and cost optimization.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-045",
+      "domain": "Cloud Concepts",
+      "subdomain": "Shared Responsibility",
+      "question": "In PaaS, which layer typically remains the customer's responsibility?",
+      "answer": "In PaaS, the customer typically remains responsible for the application, the data, and many access and configuration decisions.",
+      "rationale": "PaaS shifts more operational work to the provider than IaaS, but customers still own their workloads and data governance.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-046",
+      "domain": "Cloud Concepts",
+      "subdomain": "Private Cloud",
+      "question": "What is a private cloud in basic cloud terminology?",
+      "answer": "A private cloud is a cloud environment dedicated to a single organization, offering cloud characteristics while providing greater control over the underlying environment.",
+      "rationale": "Private cloud is not the same as on-premises virtualization in general; the key is cloud-style management and dedicated tenancy.",
+      "source": "https://learn.microsoft.com/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/"
+    },
+    {
+      "id": "az900-047",
+      "domain": "Core Architectural Components",
+      "subdomain": "Sovereignty",
+      "question": "Why might an organization choose a specific Azure region for a workload?",
+      "answer": "An organization might choose a specific Azure region to meet latency, data residency, compliance, or disaster recovery requirements.",
+      "rationale": "Region selection is a frequent fundamentals topic because it combines technical and regulatory concerns.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-048",
+      "domain": "Core Architectural Components",
+      "subdomain": "Subscriptions",
+      "question": "Why do organizations often use multiple Azure subscriptions?",
+      "answer": "Organizations often use multiple subscriptions to separate billing, environments, governance boundaries, and access control.",
+      "rationale": "Subscriptions are not just for payment. They are also an important administrative and governance boundary.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-049",
+      "domain": "Core Architectural Components",
+      "subdomain": "Resource Groups",
+      "question": "Can resources in a single resource group exist in different Azure regions?",
+      "answer": "Yes. Resources in a single resource group can be deployed to different Azure regions even though the group is a single logical container.",
+      "rationale": "This is a common AZ-900 detail that tests the difference between logical organization and physical location.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-050",
+      "domain": "Core Architectural Components",
+      "subdomain": "Consistency",
+      "question": "Why is the Azure Resource Manager model important for consistency?",
+      "answer": "The Azure Resource Manager model is important because it gives Azure a consistent way to deploy, organize, secure, and automate resources across services.",
+      "rationale": "A fundamentals learner should recognize ARM as the unifying control layer rather than just a deployment template format.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-051",
+      "domain": "Core Architectural Components",
+      "subdomain": "Geographies",
+      "question": "What is an Azure geography?",
+      "answer": "An Azure geography is a discrete market that usually contains two or more regions and is designed to preserve data residency and compliance boundaries.",
+      "rationale": "Geographies are broader than regions and are often overlooked in early study, even though they help explain residency and pairing decisions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-052",
+      "domain": "Core Architectural Components",
+      "subdomain": "Availability Sets",
+      "question": "What is the purpose of an availability set for virtual machines?",
+      "answer": "An availability set helps distribute virtual machines across fault domains and update domains to reduce the impact of hardware failures or planned maintenance.",
+      "rationale": "Even if zones are newer, availability sets still appear in foundational resiliency discussions for VM workloads.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-053",
+      "domain": "Core Architectural Components",
+      "subdomain": "Hierarchy",
+      "question": "At which scope can Azure Policy and RBAC both commonly be assigned to affect many resources at once?",
+      "answer": "Azure Policy and RBAC can both commonly be assigned at broader scopes such as management groups, subscriptions, or resource groups to affect multiple resources.",
+      "rationale": "This helps connect hierarchy concepts with governance and security controls instead of memorizing the hierarchy in isolation.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-054",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Web Hosting",
+      "question": "What kind of workload is Azure App Service designed to host?",
+      "answer": "Azure App Service is designed to host web apps, REST APIs, and mobile back ends without requiring you to manage the underlying servers directly.",
+      "rationale": "App Service is one of the core PaaS offerings that commonly shows up in AZ-900 service-identification questions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-055",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Kubernetes",
+      "question": "What does Azure Kubernetes Service provide at a high level?",
+      "answer": "Azure Kubernetes Service provides a managed Kubernetes platform for deploying, scaling, and operating containerized applications.",
+      "rationale": "For AZ-900, know the service category and broad use case rather than deep Kubernetes operations.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-056",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Connectivity",
+      "question": "When would ExpressRoute be chosen instead of a standard internet-based connection to Azure?",
+      "answer": "ExpressRoute would be chosen when an organization needs a private dedicated connection to Azure for more predictable connectivity, performance, or compliance needs.",
+      "rationale": "This helps distinguish private enterprise connectivity from normal public internet access to Azure services.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-057",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Connectivity",
+      "question": "What does a VPN gateway enable in Azure?",
+      "answer": "A VPN gateway enables encrypted network connections between Azure virtual networks and other networks, such as on-premises sites or remote clients.",
+      "rationale": "It is a core connectivity building block and appears frequently in fundamentals study guides.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-058",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Storage Services",
+      "question": "What is Azure Files used for?",
+      "answer": "Azure Files provides fully managed file shares in the cloud that can be accessed over SMB or other supported protocols.",
+      "rationale": "Blob storage, disks, and files each serve different storage patterns. Azure Files maps most directly to shared file storage scenarios.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-059",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Storage Services",
+      "question": "What is the main purpose of Azure Disk Storage?",
+      "answer": "Azure Disk Storage provides persistent block storage for Azure virtual machines and similar compute workloads.",
+      "rationale": "This distinguishes managed disks from object storage and file shares.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-060",
+      "domain": "Compute, Networking, and Storage",
+      "subdomain": "Network Delivery",
+      "question": "What is Azure Content Delivery Network used for?",
+      "answer": "Azure Content Delivery Network is used to cache and deliver content from edge locations closer to users to improve performance and reduce latency.",
+      "rationale": "CDN is a classic service-identification topic and fits the broader Azure networking and delivery story.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-architecture-services/"
+    },
+    {
+      "id": "az900-061",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Identity and Access",
+      "question": "What does role-based access control in Azure determine?",
+      "answer": "Role-based access control determines what actions a user, group, or identity is allowed to perform on Azure resources at a given scope.",
+      "rationale": "RBAC is a fundamentals topic because it is central to least-privilege administration across Azure.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-062",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Perimeter Security",
+      "question": "What does Azure Firewall provide?",
+      "answer": "Azure Firewall provides a managed, stateful network security service that can control and log traffic between networks and applications.",
+      "rationale": "This adds an important service distinction beyond NSGs and DDoS protection.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-063",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Conditional Access",
+      "question": "What is the purpose of Conditional Access in Microsoft Entra ID?",
+      "answer": "Conditional Access evaluates signals such as user, device, location, or risk and then enforces access requirements such as MFA or blocking access.",
+      "rationale": "Even in AZ-900, this is an important identity control to recognize conceptually.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-064",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Privacy",
+      "question": "Why is data residency important when choosing where to deploy a workload?",
+      "answer": "Data residency is important because some legal, regulatory, or contractual requirements limit where data can be stored or processed.",
+      "rationale": "This links privacy and compliance requirements back to concrete architectural choices like region selection.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-065",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Compliance Offerings",
+      "question": "What is the Service Trust Portal used for?",
+      "answer": "The Service Trust Portal is used to access Microsoft compliance documentation, audit reports, privacy information, and related trust resources.",
+      "rationale": "This is a common fundamentals question because it connects Azure compliance claims with where customers can review the evidence.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-066",
+      "domain": "Security, Privacy, and Compliance",
+      "subdomain": "Monitoring Threats",
+      "question": "What is Microsoft Sentinel at a high level?",
+      "answer": "Microsoft Sentinel is a cloud-native SIEM and SOAR solution that helps collect signals, detect threats, investigate incidents, and automate response.",
+      "rationale": "Sentinel is part of the broader Microsoft security story and can appear in high-level service-identification questions.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-067",
+      "domain": "Management and Governance",
+      "subdomain": "Tagging",
+      "question": "Why are tags useful in Azure?",
+      "answer": "Tags are useful because they let you organize resources with custom metadata for cost tracking, automation, reporting, and governance.",
+      "rationale": "Tags are a simple but important management concept that connects inventory, cost, and policy operations.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-068",
+      "domain": "Management and Governance",
+      "subdomain": "Recommendations",
+      "question": "What is Azure Advisor used for?",
+      "answer": "Azure Advisor is used to provide personalized recommendations that help improve cost, security, reliability, operational excellence, and performance.",
+      "rationale": "Advisor is a common fundamentals service because it summarizes best-practice guidance in one place.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-069",
+      "domain": "Management and Governance",
+      "subdomain": "Observability",
+      "question": "What is the difference between Azure Monitor metrics and logs at a high level?",
+      "answer": "Metrics are lightweight numerical values collected over time, while logs store richer event and diagnostic data for deeper analysis and troubleshooting.",
+      "rationale": "This distinction helps learners understand why Azure Monitor offers multiple telemetry types instead of a single data stream.",
+      "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
+    },
+    {
+      "id": "az900-070",
+      "domain": "Management and Governance",
+      "subdomain": "SLAs",
+      "question": "What does a service-level agreement communicate in Azure?",
+      "answer": "A service-level agreement communicates the expected availability commitment for a service and the conditions under which service credits may apply.",
+      "rationale": "SLA questions are common in AZ-900 because they connect architecture decisions with business expectations and uptime commitments.",
       "source": "https://learn.microsoft.com/training/paths/describe-azure-management-governance/"
     }
   ]
